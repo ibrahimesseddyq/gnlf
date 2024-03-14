@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
 
 #ifdef OPEN_MAX
 #define FD_MAX OPEN_MAX
