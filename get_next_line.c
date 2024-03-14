@@ -43,6 +43,9 @@ static char *process_buf_read(char **buf_read, int fd)
 	{
         ln = ft_strdup(buf_read[fd]);
     }
+
+	if(!ln)
+		return(free(buf_read[fd]), NULL);
 	// printf("\n[[ln] : %s]\n",ln);
 	if (length_till_nl < complete_length)
 	{
@@ -52,10 +55,10 @@ static char *process_buf_read(char **buf_read, int fd)
 	}
 	else
 	{
-		free(*(buf_read + fd));
-		*(buf_read + fd) = NULL;
+		free(buf_read[fd]);
+		buf_read[fd] = NULL;
+
 	}
-	// printf("test");
 	return (ln);
 }
 char	*get_next_line(int fd)
@@ -64,11 +67,11 @@ char	*get_next_line(int fd)
 	int			rd;
 	int			has_line;
 	char		*temp;
-	if ((fd < 0 || fd >= OPEN_MAX) || (BUFFER_SIZE < 1 || BUFFER_SIZE > INT_MAX) || read(fd, buf, 0) == -1)
+	if ((fd < 0 || fd >= FD_MAX) || (BUFFER_SIZE < 1 || BUFFER_SIZE > INT_MAX) || read(fd, buf, 0) == -1)
 		return (NULL);
-	static char	*buf_read[OPEN_MAX];
+	static char	*buf_read[FD_MAX];
 	if (!buf_read[fd])
-		buf_read[fd] = ft_strdup("");
+		buf_read[fd] = ft_strdup(""); //0
 	if(!buf_read[fd])
 		return (NULL);
 	rd = 1;
@@ -77,7 +80,7 @@ char	*get_next_line(int fd)
 	{
 		rd = read(fd, buf, BUFFER_SIZE);
 		buf[rd] = 0;
-		temp = ft_strjoin(*(buf_read + fd), buf);
+		temp = ft_strjoin(buf_read[fd], buf);// 6
 		free(buf_read[fd]);
 		buf_read[fd] = temp;
 		if (ft_strchr(buf_read[fd], NL))
