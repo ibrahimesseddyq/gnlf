@@ -1,2 +1,0 @@
-#define gnl_VERSION_MAJOR @gnl_VERSION_MAJOR@
-#define gnl_VERSION_MINOR @gnl_VERSION_MINOR@

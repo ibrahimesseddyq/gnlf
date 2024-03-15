@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 18:04:21 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/03/15 09:12:11 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/03/15 09:47:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,24 @@ char	*get_next_line(int fd)
 {
 	char		*buf;
 	int			rd;
-	static char	*buf_read[FD_MAX];
+	static char	*buf_read;
 
 	rd = 1;
-	buf = NULL;
-	if ((fd < 0 || fd >= FD_MAX) || (BUFFER_SIZE < 1 || BUFFER_SIZE > INT_MAX) || read(fd, buf, 0) == -1)
+	if ((fd < 0 || fd >= FD_MAX))
 		return (NULL);
 	buf = (char *) malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if(!buf)
 		return (NULL);
-	while (!ft_strchr(buf_read[fd], NL) && rd != 0)
+	while (!ft_strchr(buf_read, NL) && rd != 0)
 	{
 		rd = read(fd, buf, BUFFER_SIZE);
 		if (rd == -1)
-			return (cleanup(buf, buf_read[fd]),NULL);
+			return (cleanup(buf, buf_read),NULL);
 		buf[rd] = 0;
-		buf_read[fd] = ft_strjoin(buf_read[fd], buf);// 6
+		buf_read = ft_strjoin(buf_read, buf);
 	}
 	free(buf);
-	buf = get_line(buf_read[fd]);
-	buf_read[fd] = process_line(buf_read[fd]);
+	buf = get_line(buf_read);
+	buf_read = process_line(buf_read);
 	return (buf);
 }
