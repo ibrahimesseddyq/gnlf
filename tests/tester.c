@@ -15,12 +15,11 @@ void oneline_nonl();
 void onenl();
 int main()
 {
-    // one_char();
-    // empty();
-    // giant();
-    // oneline_nonl();
-    // onenl();
-    char *a =malloc(10);
+    one_char();
+    empty();
+    giant();
+    oneline_nonl();
+    onenl();
         atexit(func);
 
 }

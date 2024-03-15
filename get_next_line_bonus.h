@@ -1,7 +1,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 #define NL '\n'
-#define BUFFER_SIZE 5
+// #define BUFFER_SIZE 5
 
 #include <limits.h>
 #include <unistd.h>
